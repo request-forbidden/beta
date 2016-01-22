@@ -1,0 +1,3 @@
+
+GET        /test                        @controllers.CAuth.test()
+GET        /list                        @controllers.CAuth.list()
