@@ -1,0 +1,52 @@
+@(loginForm: Form[secure.SessionManager.Login])
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Login stuff ! </title>
+</head>
+<body>
+
+    @if(loginForm.hasGlobalErrors) {
+    <div class="alert alert-error">
+        @loginForm.globalError.message
+    </div>
+    }
+
+    @helper.form(action = routes.Application.doLogin, 'class->"form-inline") {
+    <fieldset>
+        <label>
+            <span class="block input-icon input-fa fa-right">
+                <input type="text" class="span12" name="login" placeholder="Login" />
+                <i class="fa fa-user"></i>
+            </span>
+        </label>
+
+        <label>
+            <span class="block input-icon input-fa fa-right">
+                <input type="password" class="span12" name="password" placeholder="Hasło" />
+                <i class="fa fa-lock"></i>
+            </span>
+        </label>
+
+        <div class="space"></div>
+
+        <div class="clearfix">
+            <label class="inline">
+                <input type="checkbox" class="ace" />
+                <span class="lbl">Zapamietaj mnie</span>
+            </label>
+
+            <button class="width-35 pull-right btn btn-small btn-primary">
+                <i class="fa fa-key"></i>
+                Login
+            </button>
+        </div>
+
+    </fieldset>
+    }
+
+
+</body>
+</html>

@@ -13,14 +13,8 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-entitymanager" % "4.3.10.Final",
   "org.jadira.usertype" % "usertype.jodatime" % "2.0.1",
   "com.fasterxml.jackson.datatype" % "jackson-datatype-joda" % "2.0.1",
-  "be.objectify" %% "deadbolt-java" % "2.4.3"
+  "be.objectify" %% "deadbolt-java" % "2.4.4"
 )
-
-EmberjsKeys.emberjsPrecompiler := baseDirectory.value / "public" / "javascripts" / "ember-template-compiler.js"
-
-UglifyKeys.uglifyOps := { js =>
-  Seq((js.sortBy(_._2), "main.min.js"))
-}
 
 
 routesGenerator := InjectedRoutesGenerator

@@ -3,8 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
-GET     /js/routes                  controllers.Application.javascriptRoutes()
+GET     /                           @controllers.Application.index()
+POST    /login                      @controllers.Application.doLogin()
+GET     /login                      @controllers.Application.login()
+GET     /logout                     @controllers.Application.logout()
+GET     /js/routes                  @controllers.Application.javascriptRoutes()
 
 # Versioned Assets
 GET     /vassets/*file              controllers.Assets.versioned(path="/public", file: Asset)
