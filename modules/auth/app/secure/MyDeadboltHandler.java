@@ -54,7 +54,7 @@ public class MyDeadboltHandler extends AbstractDeadboltHandler{
         return F.Promise.promise(new F.Function0<Result>() {
             @Override
             public Result apply() throws Throwable {
-                return redirect(controllers.routes.Application.login());
+                return redirect("/login");
             }
         });
 

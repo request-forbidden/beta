@@ -33,7 +33,6 @@ public class Application extends Controller {
         } else {
 
             loginForm.get().login(session(), request(), response());
-
             return redirect(routes.Application.index());
         }
 
@@ -52,7 +51,7 @@ public class Application extends Controller {
 
     //private static Configuration conf =  play.Play.application().configuration();
 
-    @SubjectPresent
+
     public Result index() {
         return ok(index.render(" ! Your new application is ready. "));
     }

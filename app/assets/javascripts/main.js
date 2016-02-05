@@ -28,6 +28,7 @@
       'angular-route': ['../lib/angularjs/angular-route'],
       'angular-cookies': ['../lib/angularjs/angular-cookies'],
       'bootstrap': ['../lib/bootstrap/js/bootstrap'],
+      'FileUploader': ['/vassets/javascripts/angular-file-upload/angular-file-upload.min'],
       'jsRoutes': ['/js/routes?']
     }
   });
@@ -37,7 +38,7 @@
   };
 
   // Load the app. This is kept minimal so it doesn't need much updating.
-  require(['angular', 'angular-cookies', 'angular-route', 'jquery', 'bootstrap', './app'],
+  require(['FileUploader','angular', 'angular-cookies', 'angular-route', 'jquery', 'bootstrap', './app'],
     function (angular) {
       angular.bootstrap(document, ['app']);
     }
