@@ -1,6 +1,7 @@
 logs
 target
 /.idea
+public/vendors
 /.idea_modules
 /.classpath
 /.project

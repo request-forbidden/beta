@@ -16,11 +16,4 @@ libraryDependencies ++= Seq(
   "be.objectify" %% "deadbolt-java" % "2.4.3"
 )
 
-EmberjsKeys.emberjsPrecompiler := baseDirectory.value / "public" / "javascripts" / "ember-template-compiler.js"
-
-UglifyKeys.uglifyOps := { js =>
-  Seq((js.sortBy(_._2), "main.min.js"))
-}
-
-
 routesGenerator := InjectedRoutesGenerator

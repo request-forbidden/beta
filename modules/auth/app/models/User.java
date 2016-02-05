@@ -1,9 +1,15 @@
 package models;
 
+import be.objectify.deadbolt.core.models.Permission;
+import be.objectify.deadbolt.core.models.Role;
+import be.objectify.deadbolt.core.models.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.joda.time.DateTime;
 
-public class User extends AbstractModel {
+import java.util.List;
+
+
+public class User extends AbstractModel  implements Subject {
 
 	private Long 	id;
 	private String 	username;
@@ -156,4 +162,18 @@ public class User extends AbstractModel {
 		this.hasAvatar = hasAvatar;
 	}
 
+	@Override
+	public List<? extends Role> getRoles() {
+		return null;
+	}
+
+	@Override
+	public List<? extends Permission> getPermissions() {
+		return null;
+	}
+
+	@Override
+	public String getIdentifier() {
+		return null;
+	}
 }

@@ -4,6 +4,8 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET     /login                      controllers.Application.login()
+POST    /login                      controllers.Application.doLogin()
 GET     /js/routes                  controllers.Application.javascriptRoutes()
 
 # Versioned Assets

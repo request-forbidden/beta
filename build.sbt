@@ -5,8 +5,13 @@ version := "1.0-SNAPSHOT"
 version := "1.0-SNAPSHOT"
 
 lazy val common = (project in file("modules/common")).enablePlugins(PlayJava)
+lazy val auth = (project in file("modules/auth")).enablePlugins(PlayJava).dependsOn(common).aggregate(common)
 
-lazy val root = (project in file(".")).enablePlugins(PlayJava).dependsOn(common).aggregate(common)
+lazy val storehouse = (project in file("modules/storehouse")).enablePlugins(PlayJava).dependsOn(common).aggregate(common)
+
+lazy val root = (project in file(".")).enablePlugins(PlayJava)
+  .dependsOn(auth).aggregate(auth)
+  .dependsOn(storehouse).aggregate(storehouse)
 
 scalaVersion := "2.11.6"
 
