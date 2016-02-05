@@ -1,19 +1,25 @@
-package security;
+package security_1;
 
-import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.UntypedActor;
+import static akka.pattern.Patterns.ask;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import play.Logger;
 import play.libs.Akka;
 import play.libs.F.Callback;
 import play.libs.F.Callback0;
 import play.libs.Json;
 import play.mvc.WebSocket;
-
-import java.util.HashMap;
-import java.util.Map;
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
+import akka.actor.ActorRef;
+import akka.actor.Props;
+import akka.actor.UntypedActor;
 
 public class SessionActor extends UntypedActor {
 
@@ -24,9 +30,7 @@ public class SessionActor extends UntypedActor {
 
 	public static void start(final Long userId, WebSocket.In<JsonNode> in, final WebSocket.Out<JsonNode> out) throws Exception {
 
-//		String result = (String) Await.result(Patterns$.ask(messenger, new Join(userId, out), 2000), Duration.create(1, SECONDS));
-
-		String result = "OK";
+		String result = (String) Await.result(ask(messenger, new Join(userId, out), 2000), Duration.create(1, SECONDS));
 
 		if (STATUS_SUCCESS.equals(result)) {
 
@@ -72,7 +76,7 @@ public class SessionActor extends UntypedActor {
 
 		}else{
 
-			play.Logger.debug("[WebSocket] onRecive: "+message.toString());
+			Logger.debug("[WebSocket] onRecive: "+message.toString());
 
 		}
 
@@ -111,7 +115,7 @@ public class SessionActor extends UntypedActor {
 	private static void notifyUserStatus(Long uid, boolean online){
 
 		ObjectNode n = Json.newObject();
-		n.put("uid", uid);				// TODO some messenger information !
+		n.put("uid", uid);				// TODO some messenger information ! 
 		n.put("type", "user_status"); 	//RemoteMessage.T_USER_STATUS
 		n.put("online", online);
 
@@ -128,7 +132,7 @@ public class SessionActor extends UntypedActor {
 				chOut.write(event);
 				c++;
 			}
-			play.Logger.debug("[WebSocket] notifyAll: "+c+" channels and "+u+" users notified: "+event.toString());
+			Logger.debug("[WebSocket] notifyAll: "+c+" channels and "+u+" users notified: "+event.toString());
 		}
 	}
 

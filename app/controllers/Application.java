@@ -1,13 +1,11 @@
 package controllers;
 
-import be.objectify.deadbolt.java.actions.SubjectPresent;
 import play.*;
 import play.api.routing.JavaScriptReverseRoute;
 import play.data.Form;
-import play.db.jpa.Transactional;
 import play.mvc.*;
 
-import security.SessionManager.Login;
+import secure.SessionManager;
 import views.html.*;
 
 import java.lang.reflect.Field;
@@ -16,13 +14,43 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import secure.SessionManager.Login;
+
 import static org.reflections.ReflectionUtils.getAllMethods;
 import static org.reflections.ReflectionUtils.withReturnType;
 
 public class Application extends Controller {
 
+//    @Transactional
+    public Result doLogin() {
 
-    @SubjectPresent
+        Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
+
+        if (loginForm.hasErrors()) {
+            loginForm.data().put("password", "");
+            return badRequest(views.html.login.render(loginForm));
+        } else {
+
+            loginForm.get().login(session(), request(), response());
+            return redirect(routes.Application.index());
+        }
+
+    }
+
+    public Result login() {
+        return ok(login.render(Form.form(Login.class)));
+    }
+
+    public Result logout() {
+
+        SessionManager.logout(session());
+
+        return redirect(routes.Application.login());
+    }
+
+    //private static Configuration conf =  play.Play.application().configuration();
+
+
     public Result index() {
         return ok(index.render(" ! Your new application is ready. "));
     }
@@ -30,24 +58,6 @@ public class Application extends Controller {
     public Result test(){
         return ok(" test ");
     }
-
-    public Result login() {
-        return ok(login.render(Form.form(Login.class)));
-    };
-
-    @Transactional
-    public Result doLogin() {
-
-        Form<Login> loginForm = Form.form(Login.class).bindFromRequest();
-
-        if (loginForm.hasErrors()) {
-            loginForm.data().put("password", "");
-            return badRequest(login.render(loginForm));
-        } else {
-            loginForm.get().login(session(), request(), response());
-            return redirect(routes.Application.index());
-        }
-    };
 
     public Result javascriptRoutes() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 

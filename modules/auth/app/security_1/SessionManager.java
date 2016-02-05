@@ -1,17 +1,22 @@
-package security;
-
-import models.User;
-import org.apache.commons.codec.binary.Hex;
-import play.mvc.Http;
-import play.mvc.Http.Request;
-import play.mvc.Http.Response;
-import play.mvc.Http.Session;
+package security_1;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+
+import org.apache.commons.codec.binary.Hex;
+
+import play.db.jpa.JPA;
+import play.libs.F;
+import play.mvc.Http;
+import play.mvc.Http.Request;
+import play.mvc.Http.Response;
+import play.mvc.Http.Session;
+import models.User;
 
 public class SessionManager {
 
@@ -24,7 +29,7 @@ public class SessionManager {
         return userList;
     }
 
-	public static void logout(play.mvc.Http.Session session){
+	public static void logout(Session session){
 
 		Long uid = Long.valueOf(session.get("id"));
 
@@ -59,7 +64,7 @@ public class SessionManager {
 
 	/**
 	 * called by deadbolt 2 handler
-	 * @return
+	 * @return			
 	 */
 	public static User getUserForSession(Http.Context ctx) {
 
@@ -67,6 +72,70 @@ public class SessionManager {
 		Request request = ctx.request();
         Response response = ctx.response();
 
+		Long uid = (session.get("id") != null) ? Long.valueOf(session.get("id")) : null;
+		String hashcookie = null;
+
+        if(uid!= null && !SessionManager.userList.containsKey(uid) && play.Play.isDev()){
+
+            final Long tuid = uid;
+
+            JPA.withTransaction(new F.Callback0() {
+                @Override
+                public void invoke() throws Throwable {
+//                    User u = User.findById(tuid);
+//                    SessionManager.userList.put(tuid, u);
+                }
+            });
+
+            return SessionManager.userList.get(uid);
+        }
+
+		try{
+
+            hashcookie = request.cookies().get(COOKIE_PASSHASH).value(); //null point exception ?
+
+		}catch(NullPointerException e){ }
+
+		if (uid == null && hashcookie!=null) { //no session but remember me ! 
+
+			try{
+
+				if (SessionManager.hashUserMap.containsKey(hashcookie)) { //session is gone but hashcookie is and information in memory
+
+					uid = SessionManager.hashUserMap.get(hashcookie);
+
+					if (SessionManager.userList.containsKey(uid)){
+
+						String remoteAddress = request.remoteAddress();
+						String userAgent = request.getHeader(Response.USER_AGENT);
+						String hashcurrent = SessionManager.getMD5Hash(remoteAddress, userAgent, String.valueOf(uid));
+
+						if (hashcookie.equals(hashcurrent)) { //yes this is this user ! he can login !! 
+
+							session.put("id", String.valueOf(uid)); //restoring session
+
+						}else{
+							throw new BadHashCookieExceception("hash_not_equals");
+						}
+
+					}else{
+						throw new BadHashCookieExceception("uid_not_found_on_list");
+					}
+
+				}else{
+					throw new BadHashCookieExceception("hashcookie_not_found_on_list");
+				}
+
+			}catch(BadHashCookieExceception e){
+				response.setCookie(COOKIE_PASSHASH, "", -COOKIE_MAXAGE);
+				return null;
+			}
+
+		}
+
+		if (SessionManager.userList.containsKey(uid)){ 
+			return SessionManager.userList.get(uid);
+        }
 
 		return null;
 	}
@@ -92,7 +161,7 @@ public class SessionManager {
 
 		return new String(Hex.encodeHex(md.digest()));
 	}
-
+	
 	// - LOGIN subclass	------------------------------------------------------
 
 	public static class Login {
@@ -119,17 +188,37 @@ public class SessionManager {
 			return this.password;
 		}
 
-		public void login(play.mvc.Http.Session session, play.mvc.Http.Request request, play.mvc.Http.Response response){
+		public void login(Session session, Request request, Response response){
 
 			String string_id = String.valueOf(this.user.getId());
 
 			session.put("id", string_id);
 
 			String remoteAddress = request.remoteAddress();
-			String userAgent = request.getHeader(play.mvc.Http.Response.USER_AGENT);
-//			String hash = SessionManager.getMD5Hash(remoteAddress, userAgent, string_id);
+			String userAgent = request.getHeader(Response.USER_AGENT);
+			String hash = SessionManager.getMD5Hash(remoteAddress, userAgent, string_id);
 
-//			SessionManager.userList.put(this.user.getId(), this.user);
+			String sql = "UPDATE users SET last_login_date = ?, last_login_from = ?, last_login_useragent = ?, last_login_hash = ? WHERE id = ?";
+
+			JPA.em().createNativeQuery(sql)
+				.setParameter(1, new Date())
+				.setParameter(2, remoteAddress)
+				.setParameter(3, userAgent)
+				.setParameter(4, hash)
+				.setParameter(5, user.getId())
+				.executeUpdate();
+
+			if(this.rememberme){
+				SessionManager.hashUserMap.put(hash, user.getId());
+				response.setCookie(COOKIE_PASSHASH, hash, COOKIE_MAXAGE);
+			}
+
+			this.user.setRememberme(rememberme);
+			this.user.setRemoteAddress(remoteAddress);
+			this.user.setUserAgent(userAgent);
+			this.user.setHash(hash);
+
+			SessionManager.userList.put(this.user.getId(), this.user);
 
 		}
 

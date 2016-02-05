@@ -44,7 +44,9 @@
       'loading-bar': ['/assets/vendors/bower_components/angular-loading-bar/src/loading-bar'],
       'ocLazyLoad': ['/assets/vendors/bower_components/oclazyload/dist/ocLazyLoad.min'],
       'nouislider': ['/assets/vendors/bower_components/angular-nouislider/src/nouislider.min'],
-      'ng-table': ['/assets/vendors/bower_components/ng-table/dist/ng-table.min']
+      'ng-table': ['/assets/vendors/bower_components/ng-table/dist/ng-table.min'],
+      'FileUploader': ['/vassets/javascripts/angular-file-upload/angular-file-upload.min']
+
     }
   });
 
@@ -60,7 +62,7 @@
         'angular-animate','angular-resource','angular-ui-router',
         'ui-bootstrap-tpls', 'ng-table', 'jquery', 'bootstrap', './app'],
 
-      function (angular) {
+      function (angular) { //'FileUploader'
         require(['loading-bar', 'ocLazyLoad','nouislider'], function(){ //we need angular ready for those
           angular.bootstrap(document, ['materialAdmin']);
         });
