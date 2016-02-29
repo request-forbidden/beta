@@ -19,6 +19,11 @@ public class CAuth extends Controller {
         this.userRepository = userRepository;
     }
 
+    public Result page(){
+
+        return ok(); // here return page object - from commons ui. pageObject / widget object
+    }
+
     @Transactional
     public Result test() {
         User u = userRepository.findById(2L);

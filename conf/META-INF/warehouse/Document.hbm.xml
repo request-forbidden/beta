@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.Document" table="wh_documents" schema="warehouse">
+
+		<id name="id" type="long" column="document_id">
+			<generator class="identity" />
+		</id>
+
+		<property name="name">
+			<column name="name"/>
+		</property>
+
+        <property name="supplierName">
+            <column name="supplier_name"/>
+        </property>
+
+		<property name="docTypeId">
+			<column name="doc_type_id"/>
+		</property>
+		
+		<property name="supplierId">
+			<column name="supplier_id"/>
+		</property>
+		
+		<property name="stockId">
+			<column name="stock_id"/>
+		</property>
+
+        <property name="oldStockId">
+            <column name="old_stock_id"/>
+        </property>
+
+        <property name="wz">
+            <column name="wz"/>
+        </property>
+
+        <property name="userId">
+            <column name="user_id"/>
+        </property>
+
+		<property name="entryDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="entry_date"/>
+		</property>
+
+        <property name="creationDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="creation_date"/>
+        </property>
+
+        <property name="editDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="edit_date"/>
+        </property>
+
+        <property name="createdFromDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="created_from_date"/>
+        </property>
+
+        <property name="createdFromId">
+            <column name="created_from_id"/>
+        </property>
+
+        <many-to-one name="stock" class="warehouse.models.Stock" update="false" insert="false">
+            <column name="stock_id"></column>
+        </many-to-one>
+
+        <many-to-one name="oldStock" class="warehouse.models.Stock" update="false" insert="false">
+            <column name="old_stock_id"></column>
+        </many-to-one>
+
+        <many-to-one name="supplier" class="warehouse.models.Supplier" update="false" insert="false">
+            <column name="supplier_id"></column>
+        </many-to-one>
+
+        <many-to-one name="type" class="warehouse.models.DocType" update="false" insert="false">
+            <column name="doc_type_id"></column>
+        </many-to-one>
+
+        <set name="entities" table="wh_document_entity" inverse="true" schema="warehouse">
+            <key column="document_id" not-null="true"/>
+            <many-to-many column="entity_id" class="warehouse.models.eav.EAV_Entity"/>
+        </set>
+
+        <set name="documentEntityTypes" table="wh_doc_entity_type" inverse="true" schema="warehouse">
+            <key column="document_id" not-null="true"/>
+            <one-to-many class="warehouse.models.DocumentEntityType" />
+        </set>
+
+	</class>
+</hibernate-mapping>

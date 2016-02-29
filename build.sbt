@@ -30,7 +30,8 @@ libraryDependencies ++= Seq(
   "org.webjars" % "angular-ui-bootstrap" % "0.14.3",
   "org.webjars" % "angular-ui-router" % "0.2.15",
   "org.apache.commons" % "commons-lang3" % "3.4",
-  "be.objectify" %% "deadbolt-java" % "2.4.4"
+  "be.objectify" %% "deadbolt-java" % "2.4.4",
+
 )
 
 // Play provides two styles of routers, one expects its actions to be injected, the

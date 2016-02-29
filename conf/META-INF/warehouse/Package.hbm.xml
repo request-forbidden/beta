@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.Package" table="packages" schema="warehouse">
+		<id name="id" type="long" column="package_id">
+			<generator class="identity" />
+		</id>
+
+        <property name="title" column="title"></property>
+        <property name="description" column="description"></property>
+
+        <property name="creationDate" column="create_date" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"></property>
+        <property name="expectedDeliveryDate" column="expected_delivery_date" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"></property>
+        <property name="deliveryDate" column="delivery_date" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"></property>
+
+        <set name="packageEntityTypes" inverse="true" schema="warehouse">
+            <key column="package_id" not-null="true"/>
+            <one-to-many class="warehouse.models.PackageEntityType" />
+        </set>
+
+	</class>
+</hibernate-mapping>

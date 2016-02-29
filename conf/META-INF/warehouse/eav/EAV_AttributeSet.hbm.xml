@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.eav.EAV_AttributeSet" table="eav_attribute_set" schema="warehouse">
+		<id name="id" type="long" column="attribute_set_id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="setName">
+			<column name="attribute_set_name"/>
+		</property>
+
+		<property name="sortOrder">
+			<column name="sort_order"/>
+		</property>
+
+        <property name="entityTypeId">
+            <column name="entity_type_id"/>
+        </property>
+
+        <many-to-one name="entityType" class="warehouse.models.EntityType" update="false" insert="false">
+			<column name="entity_type_id"></column>
+		</many-to-one>
+
+        <set name="attributeGroups" table="warehouse.eav_entity_attribute" inverse="true">
+            <key column="attribute_set_id" not-null="true"/>
+            <one-to-many class="warehouse.models.eav.EAV_AttributeGroup" />
+        </set>
+
+        <set name="entityAttributes" table="warehouse.eav_entity_attribute" inverse="true">
+            <key column="attribute_set_id" not-null="true"/>
+            <one-to-many class="warehouse.models.eav.EAV_EntityAttribute" />
+        </set>
+		
+	</class>
+</hibernate-mapping>

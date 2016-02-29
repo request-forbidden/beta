@@ -5,7 +5,7 @@
  * Splitting it into several RequireJS modules allows async loading. We cannot take full advantage
  * of RequireJS and lazy-load stuff because the angular modules have their own dependency system.
  */
-define(['angular', 'controllers', 'home', 'user', 'dashboard'], function(angular, controllers) {
+define(['angular', 'controllers', 'home', 'user', 'dashboard', 'auth'], function(angular, controllers) {
     'use strict';
 
     //TODO create direvtives ! and copy from template stuff ! nanan
@@ -33,14 +33,15 @@ define(['angular', 'controllers', 'home', 'user', 'dashboard'], function(angular
 
     // We must already declare most dependencies here (except for common), or the submodules' routes
     // will not be resolved
-    var App = angular.module('materialAdmin', ['yourprefix.home', 'yourprefix.user', 'yourprefix.dashboard'  ,'ngAnimate',
+    var App = angular.module('materialAdmin', ['yourprefix.auth','yourprefix.home', 'yourprefix.user', 'yourprefix.dashboard'  ,'ngAnimate',
         'ngResource',
         'ui.router',
         'ui.bootstrap',
         'angular-loading-bar',
         'oc.lazyLoad',
         'nouislider',
-        'ngTable'
+        'ngTable',
+        'angularFileUpload'
     ]);
 
     // =========================================================================
@@ -200,15 +201,84 @@ define(['angular', 'controllers', 'home', 'user', 'dashboard'], function(angular
                 })
             }
         }
+    })
+    // =========================================================================
+    // MALIHU SCROLL
+    // =========================================================================
+
+    //On Custom Class
+    .directive('cOverflow', ['scrollService', function(scrollService){
+        return {
+            restrict: 'C',
+            link: function(scope, element) {
+
+                if (!$('html').hasClass('ismobile')) {
+                    scrollService.malihuScroll(element, 'minimal-dark', 'y');
+                }
+            }
+        }
+    }])
+
+    // =========================================================================
+    // WAVES
+    // =========================================================================
+
+    // For .btn classes
+    .directive('btn', function(){
+        return {
+            restrict: 'C',
+            link: function(scope, element) {
+                if(element.hasClass('btn-icon') || element.hasClass('btn-float')) {
+                    //Waves.attach(element, ['waves-circle']);
+                }
+
+                else if(element.hasClass('btn-light')) {
+                    //Waves.attach(element, ['waves-light']);
+                }
+
+                else {
+                    //Waves.attach(element);
+                }
+
+                //Waves.init();
+            }
+        }
+    })
+
+    // =========================================================================
+    // SERVICES
+    // =========================================================================
+
+    // =========================================================================
+    // Malihu Scroll - Custom Scroll bars
+    // =========================================================================
+    .service('scrollService', function() {
+        var ss = {};
+        ss.malihuScroll = function scrollBar(selector, theme, mousewheelaxis) {
+            $(selector).mCustomScrollbar({
+                theme: theme,
+                scrollInertia: 100,
+                axis:'yx',
+                mouseWheel: {
+                    enable: true,
+                    axis: mousewheelaxis,
+                    preventDefault: true
+                }
+            });
+        }
+
+        return ss;
     });
 
 
-
-    /**/
-    console.log("App is loaded ");
+    /* controller loader */
 
     App.controller('materialCtrl', controllers.AppCtrl);
     App.controller('HeaderCtrl', controllers.HeaderCtrl);
+
+
+
+    console.log("App is loaded ");
 
   return App;
 });

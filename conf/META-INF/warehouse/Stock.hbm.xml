@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.Stock" table="wh_stock" schema="warehouse">
+		<id name="id" type="int" column="stock_id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="name">
+			<column name="name"/>
+		</property>
+
+        <property name="requireConfirmation">
+            <column name="requires_confirmation"/>
+        </property>
+
+        <property name="userId">
+            <column name="user_id"/>
+        </property>
+
+        <many-to-one name="user" class="auth.models.User" update="false" insert="false">
+            <column name="user_id"></column>
+        </many-to-one>
+
+        <set name="stq" inverse="true" schema="warehouse">
+            <key column="stock_id" not-null="true"/>
+            <one-to-many class="warehouse.models.StockTypeQuantity" />
+        </set>
+
+        <!--<one-to-one name="stq" class="warehouse.models.StockTypeQuantity" update="false" insert="false">
+            <column name="stock_id"></column>
+            <column name="aa"></column>
+        </many-to-one>
+        -->
+	</class>
+</hibernate-mapping>

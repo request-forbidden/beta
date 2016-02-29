@@ -6,7 +6,7 @@
   requirejs.config({
     //TODO use lazy load to load this !
     // Packages = top-level folders; loads a contained file named 'main.js"
-    packages: ['common', 'home', 'user', 'dashboard', ], //'home',
+    packages: ['common', 'home', 'user', 'dashboard', 'auth' ], //'home',
     shim: {
       'jsRoutes': {
         deps: [],
@@ -33,14 +33,17 @@
       'user': ['modules/user'],
       'material': ['modules/material'],
       'dashboard': ['modules/dashboard'],
+      'auth': ['modules/auth'],
       'home': ['modules/home'],
 
       // we use webjars for those !
-
       //'angular-animate': ['/vendors/bower_components/angular-animate/angular-animate.min'],
       //'angular-resource': ['/vendors/bower_components/angular-resource/angular-resource.min'],
       //'angular-ui-router': ['/vendors/bower_components/angular-ui-router/release/angular-ui-router.min'],
       //'ui-bootstrap-tpls': ['/vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min'],
+      //  ------------------------
+
+      'mCustomScrollbar': ['/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min'],
       'loading-bar': ['/assets/vendors/bower_components/angular-loading-bar/src/loading-bar'],
       'ocLazyLoad': ['/assets/vendors/bower_components/oclazyload/dist/ocLazyLoad.min'],
       'nouislider': ['/assets/vendors/bower_components/angular-nouislider/src/nouislider.min'],
@@ -48,8 +51,8 @@
       'FileUploader': ['/vassets/javascripts/angular-file-upload/angular-file-upload.min']
 
     }
-  });
 
+  });
 
   //'ui-bootstrap-tpls','loading-bar', 'ocLazyLoad','nouislider', 'ng-table'
 
@@ -58,12 +61,19 @@
   };
 
   // Load the app. This is kept minimal so it doesn't need much updating.
-  require(['angular', 'angular-cookies', 'angular-route',
-        'angular-animate','angular-resource','angular-ui-router',
-        'ui-bootstrap-tpls', 'ng-table', 'jquery', 'bootstrap', './app'],
+  require(['angular',
+        'angular-cookies',
+        'angular-route',
+        'angular-animate',
+        'angular-resource',
+        'angular-ui-router',
+        'ui-bootstrap-tpls',
+        'jquery',
+        'bootstrap',
+        './app'],
 
-      function (angular) { //'FileUploader'
-        require(['loading-bar', 'ocLazyLoad','nouislider'], function(){ //we need angular ready for those
+      function (angular) {
+        require(['loading-bar', 'ocLazyLoad','ng-table', 'nouislider', 'FileUploader', 'mCustomScrollbar'], function(){ //we need angular ready for those
           angular.bootstrap(document, ['materialAdmin']);
         });
 

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.eav.EAV_EntityEvent" table="eav_entity_events" schema="warehouse">
+		<id name="id" type="long" column="event_id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="createTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="create_time"/>
+		</property>
+
+        <property name="modifyTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="modify_time"/>
+        </property>
+
+        <property name="startTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="start_time"/>
+        </property>
+
+        <property name="endTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="end_time"/>
+        </property>
+
+        <property name="expectedEndTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="expected_end_time"/>
+        </property>
+
+        <property name="name">
+            <column name="name"/>
+        </property>
+
+        <property name="text">
+            <column name="text"/>
+        </property>
+
+        <property name="costNetto">
+            <column name="cost_netto"/>
+        </property>
+
+        <property name="costBrutto">
+            <column name="cost_brutto"/>
+        </property>
+
+        <property name="supplierId">
+            <column name="supplier_id"/>
+        </property>
+
+        <many-to-one name="supplier" class="warehouse.models.Supplier" update="false" insert="false">
+            <column name="supplier_id"></column>
+        </many-to-one>
+
+		<property name="eventTypeId">
+			<column name="event_type_id"/>
+		</property>
+
+		<many-to-one name="eventType" class="warehouse.models.eav.EAV_EntityEventType" update="false" insert="false">
+			<column name="event_type_id"></column>
+		</many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="warehouse.models.eav.EAV_Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+		
+	</class>
+</hibernate-mapping>

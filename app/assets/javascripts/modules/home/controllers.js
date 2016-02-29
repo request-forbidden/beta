@@ -7,16 +7,14 @@ define([], function() {
   /** Controls the index page */
   var HomeCtrl = function($scope, FileUploader) {
 
-    console.log(helper.sayHi()+" form home ctrl");
-
-    $rootScope.pageTitle = 'Welcome yooo';
+    console.log(" form home ctrl");
 
     $scope.someFunction = function(){
       console.log("cliked");
     };
 
     var uploader = $scope.uploader = new FileUploader({
-      url: 'upload.php'
+      url: 'upload'
     });
 
     // FILTERS
@@ -66,7 +64,6 @@ define([], function() {
 
     console.info('uploader', uploader);
 
-
   };
 
   HomeCtrl.$inject = ['$scope', 'FileUploader'];
@@ -87,6 +84,7 @@ define([], function() {
       $location.path('/');
     };
   };
+
   HeaderCtrl.$inject = ['$scope', 'userService', 'helper', '$location'];
 
   /** Controls the footer */

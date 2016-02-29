@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="auth.models.Privilege" table="privileges">
+
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="name">
+			<column name="name"/>
+		</property>
+
+		<property name="descr">
+			<column name="descr"/>
+		</property>
+
+		<property name="roleName">
+			<column name="role_name"/>
+		</property>
+
+		<property name="categoryId">
+			<column name="category_id"/>
+		</property>
+
+		<property name="userAvailable">
+			<column name="user_available"/>
+		</property>
+
+		<many-to-one name="category" class="auth.models.Privilege$Category" update="false" insert="false">
+			<column name="category_id"></column>
+		</many-to-one>
+
+	</class>
+
+	<class name="auth.models.Privilege$Category" table="privilege_category">
+
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="name">
+			<column name="name"/>
+		</property>
+
+	</class>
+
+</hibernate-mapping>

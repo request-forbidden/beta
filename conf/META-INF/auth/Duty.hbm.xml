@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="auth.models.Duty" table="user_duty">
+
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="userId" >
+			<column name="user_id"/>
+		</property>
+
+        <property name="privilegeId" >
+            <column name="privilege_id"/>
+        </property>
+
+        <property name="day" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="day"/>
+		</property>
+
+        <many-to-one name="user" class="auth.models.User" column="user_id" update="false" insert="false" fetch="join" lazy="false"/>
+        <many-to-one name="privilege" class="auth.models.Privilege" column="privilege_id" update="false" insert="false" fetch="join" lazy="false"/>
+
+	</class>
+</hibernate-mapping>

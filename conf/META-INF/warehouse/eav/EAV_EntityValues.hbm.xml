@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.eav.EAV_EntityValues" table="eav_entity_values" mutable="false" schema="warehouse">
+
+        <composite-id name="pk" class="warehouse.models.eav.EAV_EntityValues$EAV_EntityValuesPK">
+            <key-property name="entityTypeId" column="entity_type_id"/>
+            <key-property name="stockId" column="stock_id"/>
+            <key-property name="attributeId" column="attribute_id"/>
+            <key-property name="entityId" column="entity_id"/>
+        </composite-id>
+
+        <property name="active">
+            <column name="is_active"/>
+        </property>
+
+        <property name="type">
+            <column name="type"/>
+        </property>
+
+        <property name="attributeCode">
+            <column name="attribute_code"/>
+        </property>
+
+        <property name="label">
+            <column name="frontend_label"/>
+        </property>
+
+        <property name="valueString">
+            <column name="value"/>
+        </property>
+
+        <!--
+        <property name="damaged">
+            <column name="is_damaged"/>
+        </property>
+
+        <property name="damagedDescription">
+            <column name="damaged_description"/>
+        </property>
+
+        -->
+
+        <!--
+        <property name="attributeId">
+            <column name="attribute_id"/>
+        </property>
+        -->
+		
+	</class>
+</hibernate-mapping>

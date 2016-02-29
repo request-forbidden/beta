@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="auth.models.User" table="users">
+
+		<id name="id" type="long" column="id">
+            <generator class="identity" />
+		</id>
+
+		<property name="username">
+            <column name="username"/>
+		</property>
+
+        <property name="passwd" update="false">
+            <column name="passwd" write="md5(?)"/>
+    	</property>
+
+        <property name="firstname">
+            <column name="firstname"/>
+        </property>
+
+        <property name="lastname">
+            <column name="lastname"/>
+        </property>
+
+		<property name="position">
+        	<column name="position"/>
+		</property>
+
+        <property name="active" insert="false">
+            <column name="active"/>
+        </property>
+
+        <property name="lastLoginDate" update="false" insert="false">
+            <column name="last_login_date"/>
+        </property>
+
+		<property name="lastLoginUseragent" update="false" insert="false">
+            <column name="last_login_useragent" />
+        </property>
+
+        <property name="lastLoginFrom" update="false" insert="false">
+            <column name="last_login_from"/>
+        </property>
+
+        <property name="lastLoginHash" update="false" insert="false">
+            <column name="last_login_hash"/>
+        </property>
+
+        <property name="sortUserId" column="sort_user_id"></property>
+        <property name="sortUserName" column="sort_user_name"></property>
+        <property name="sortTechnicianId" column="sort_technician_id"></property>
+        <property name="sortTechnicianName" column="sort_technician_name"></property>
+
+       <!--
+        <property name="locationId" column="location_id"></property>
+        <many-to-one name="location" class="auth.models.Location" column="location_id" update="false" insert="false" fetch="join" lazy="false"/>
+       -->
+
+		<set name="groups" table="user_group" inverse="true">
+            <key column="user_id" not-null="true"/>
+            <many-to-many column="group_id" class="auth.models.Group"/>
+        </set>
+
+        <set name="locations" table="user_location" inverse="true">
+            <key column="user_id" not-null="true"/>
+            <many-to-many column="location_id" class="auth.models.Location"/>
+        </set>
+
+        <set name="contacts" table="user_contacts" inverse="true">
+            <key column="user_id" not-null="true"/>
+            <one-to-many class="auth.models.UserContact"/>
+        </set>
+
+		<bag name="roles" table="user_privileges" inverse="true">
+			<key column="user_id" not-null="true"/>
+			<one-to-many class="auth.models.SecurityRole"/>
+		</bag>
+
+        <set name="stocks" inverse="true">
+            <key column="user_id" not-null="true"/>
+            <one-to-many class="warehouse.models.Stock"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

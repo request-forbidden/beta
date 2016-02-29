@@ -22,14 +22,12 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/demo.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
 
-
         <script>
             @Html(org.webjars.RequireJS.getSetupJavaScript(routes.WebJarAssets.at("").url))
         </script>
         <script data-main="@controllers.routes.Assets.at("../assets/javascripts/main.js")" src="@routes.WebJarAssets.at(WebJarAssets.locate("require.min.js"))"></script>
     </head>
     <body data-ng-class="{ 'sw-toggled': mactrl.layoutType === '1'}">
-
 
         <div class="ng-scope">
             <header
@@ -53,10 +51,14 @@
                     </div>
                 </section>
             </section>
+
         </div>
 
-
 @* MOVE TO REQUIRE ! FOR WORKING PURPOSES !
+
+
+<script src="@routes.Assets.versioned("vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js")"></script>
+
 
 'ui.bootstrap',        <script src="@routes.Assets.versioned("vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")"></script>
 'angular-loading-bar', <script src="@routes.Assets.versioned("vendors/bower_components/angular-loading-bar/src/loading-bar.js")"></script><script src="@routes.Assets.versioned("vendors/bower_components/angular-loading-bar/src/loading-bar.js")"></script>
@@ -89,7 +91,6 @@
         <script src="@routes.Assets.versioned("vendors/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js")"></script>
 
             <!-- Common Vendors -->
-        <script src="@routes.Assets.versioned("vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js")"></script>
         <script src="@routes.Assets.versioned("vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js")"></script>
         <script src="@routes.Assets.versioned("vendors/bower_components/Waves/dist/waves.min.js")"></script>
         <script src="@routes.Assets.versioned("vendors/bootstrap-growl/bootstrap-growl.min.js")"></script>

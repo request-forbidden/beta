@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.DocType" table="wh_docs_type" schema="warehouse">
+
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="name">
+			<column name="name"/>
+		</property>
+
+		<property name="acronym">
+			<column name="acronym"/>
+		</property>
+
+		<property name="typeCategoryId">
+			<column name="doc_type_id"/>
+		</property>
+
+		<property name="iconClass">
+			<column name="icon_class"/>
+		</property>
+
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="auth.models.UserContact" table="user_contacts">
+
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="userId">
+			<column name="user_id"/>
+		</property>
+
+		<property name="phone">
+			<column name="phone"/>
+		</property>
+
+		<property name="email">
+			<column name="email"/>
+		</property>
+
+		<property name="service" >
+			<column name="service"/>
+		</property>
+
+		<property name="createDate" insert="false" update="false">
+			<column name="create_date"/>
+		</property>
+
+	</class>
+</hibernate-mapping>

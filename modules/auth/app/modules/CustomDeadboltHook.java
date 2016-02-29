@@ -1,13 +1,12 @@
 package modules;
 
-import be.objectify.deadbolt.java.TemplateFailureListener;
 import be.objectify.deadbolt.java.cache.HandlerCache;
 import play.api.Configuration;
 import play.api.Environment;
 import play.api.inject.Binding;
 import play.api.inject.Module;
 import scala.collection.Seq;
-import secure.MyHandlerCache;
+import security.MyHandlerCache;
 
 import javax.inject.Singleton;
 

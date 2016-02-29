@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="models.Event" table="solutions_calendar_events" schema="solutions">
+		<id name="eventId" type="int" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="startDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="start_date"/>
+		</property>
+		
+		<property name="endDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="end_date"/>
+		</property>
+		
+		<property name="description">
+			<column name="description"/>
+		</property>
+
+		<property name="name">
+			<column	name="title"/>
+		</property>
+
+        <property name="recording">
+            <column name="recording"/>
+        </property>
+		
+		<property name="allDay">
+			<column name="allday"/>
+		</property>
+		
+		<property name="todoList">
+			<column name="todo_list"/>
+		</property>
+		
+		<property name="createdBy">
+			<column name="created_by"/>
+		</property>
+		
+		<property name="creationTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="creation_time"/>
+		</property>
+		
+		<property name="url">
+			<column name="url"/>
+		</property>
+		
+		<set name="users" table="solutions_user_event" inverse="true" schema="solutions">
+            <key column="event_id" not-null="true"/>
+            <many-to-many column="user_id"  class="calendar.models.UserHelper"/>
+        </set>
+        
+		<set name="groups" table="solutions_group_event" inverse="true" schema="solutions">
+            <key column="event_id" not-null="true"/>
+            <many-to-many column="group_id"  class="calendar.models.GroupHelper"/>
+        </set>
+        
+		<set name="reminders" table="solutions_calendar_event_reminders" schema="solutions" inverse="true">
+            <key column="event_id" not-null="true"/>
+            <one-to-many class="calendar.models.Reminder" />
+        </set>
+	</class>
+	<class name="calendar.models.UserHelper" table="users">
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="username" formula="firstname || ' ' || lastname">
+		</property>
+		
+		<property name="location" formula="( SELECT l.city FROM locations l WHERE location_id = l.id LIMIT 1 )">
+		</property>
+	</class>
+	<class name="calendar.models.GroupHelper" table="groups">
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="name">
+			<column name="name"/>
+		</property>
+	</class>
+	<class name="calendar.models.Reminder" table="solutions_calendar_event_reminders" schema="solutions">
+		<id name="id" type="int" column="id">
+			<generator class="identity" />
+		</id>
+		<property name="remindTimeMs">
+			<column name="remind_time_ms"/>
+		</property>
+		
+		<property name="type">
+			<column name="type"/>
+		</property>
+		
+		<property name="unit">
+			<column name="unit"/>
+		</property>
+		
+		<property name="time">
+			<column name="time"/>
+		</property>
+
+		<property name="eventId">
+			<column name="event_id"/>
+		</property>
+		
+		<many-to-one name="eventSimple" class="calendar.models.EventSimple" column="event_id" insert="false" update="false" not-null="true" />
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="calendar.models.EventSimple" table="solutions_calendar_events" schema="solutions">
+		<id name="id" type="long" column="id">
+			<generator class="identity" />
+		</id>
+
+		<property name="eventStart" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="start_date"/>
+		</property>
+		
+		<property name="eventEnd" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="end_date"/>
+		</property>
+		
+		<property name="description">
+			<column name="description"/>
+		</property>
+
+		<property name="name">
+			<column	name="title"/>
+		</property>
+		
+		<property name="allDay">
+			<column name="allday"/>
+		</property>
+	</class>
+	<class name="calendar.scheduling.ReminderView" table="solutions_events_reminders" schema="solutions">
+		<id name="id" type="int" column="id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="title">
+			<column name="title"/>
+		</property>
+		
+		<property name="description">
+			<column name="description"/>
+		</property>
+		
+		<property name="remindType">
+			<column name="type"/>
+		</property>
+		
+		<property name="eventId">
+			<column name="event_id"/>
+		</property>
+		
+		<property name="startDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="start_date"/>
+		</property>
+		
+		<property name="endDate" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="end_date"/>
+		</property>
+		
+		<property name="allDay">
+			<column name="allday"/>
+		</property>
+		
+		<property name="remindTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="remind_time"/>
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="calendar.models.InstanceOptions" table="solutions_calendar_instance_options" schema="solutions">
+
+		<id name="type" type="string" column="type">
+			<!--<generator class="identity" />-->
+		</id>
+
+		<property name="remindBeforeMS">
+			<column name="remind_before_ms"/>
+		</property>
+		
+		<property name="warnTimeMS">
+			<column name="warn_time_ms"/>
+		</property>
+
+		<property name="remindMode">
+			<column	name="remind_mode"/>
+		</property>
+		
+		<property name="colorOk">
+			<column name="color_ok"/>
+		</property>
+		
+		<property name="colorWarn">
+			<column name="color_warn"/>
+		</property>
+		
+		<property name="colorError">
+			<column name="color_error"/>
+		</property>
+
+	</class>
+</hibernate-mapping>

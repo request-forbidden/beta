@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.PackageEntityType" table="package_entity_type" schema="warehouse">
+		<id name="id" type="long" column="package_entity_type_id">
+			<generator class="identity" />
+		</id>
+
+        <property name="packageId" column="package_id"></property>
+        <property name="entityTypeId" column="entity_type_id"></property>
+        <property name="entityId" column="entity_id"></property>
+        <property name="description" column="description"></property>
+        <property name="quantity" column="quantity"></property>
+
+        <many-to-one name="entity" class="warehouse.models.eav.EAV_Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+
+        <many-to-one name="entityType" class="warehouse.models.EntityType" update="false" insert="false">
+            <column name="entity_type_id"></column>
+        </many-to-one>
+
+        <many-to-one name="package_" class="warehouse.models.Package" update="false" insert="false">
+            <column name="package_id"></column>
+        </many-to-one>
+
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.DocumentEntityType" table="wh_doc_entity_type" schema="warehouse">
+
+        <composite-id name="pk" class="warehouse.models.DocumentEntityTypeId">
+            <key-property name="documentId" column="document_id"/>
+            <key-property name="entityTypeId" column="entity_type_id"/>
+        </composite-id>
+
+        <property name="quantity">
+            <column name="quantity"/>
+        </property>
+		
+		<property name="priceNetto">
+			<column name="price_netto"/>
+		</property>
+		
+		<property name="priceBrutto">
+			<column name="price_brutto"/>
+		</property>
+
+		<property name="info">
+			<column name="info"/>
+		</property>
+
+        <many-to-one name="entityType" class="warehouse.models.EntityType" update="false" insert="false">
+            <column name="entity_type_id"></column>
+        </many-to-one>
+
+        <many-to-one name="document" class="warehouse.models.Document" update="false" insert="false">
+            <column name="document_id"></column>
+        </many-to-one>
+
+	</class>
+</hibernate-mapping>

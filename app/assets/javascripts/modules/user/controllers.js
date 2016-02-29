@@ -13,6 +13,7 @@ define([], function() {
       });
     };
   };
+
   LoginCtrl.$inject = ['$scope', '$location', 'userService'];
 
   return {

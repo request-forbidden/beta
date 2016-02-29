@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.export.ExportEntityType" mutable="false" table="wh_entity_type" schema="warehouse">
+
+        <id name="id" type="long" column="id">
+            <generator class="assigned" />
+        </id>
+
+        <property name="entityTypeId" column="entity_type_id"/>
+
+        <property name="entityName" column="entity_name" not-null="false"/>
+
+        <property name="catalogIndex" column="catalog_index" not-null="false"/>
+
+        <property name="description" column="description" not-null="false"/>
+
+        <property name="vat" column="vat" not-null="false"/>
+
+        <property name="unit" column="unit" not-null="false"/>
+
+        <property name="categoryName" column="category_name" not-null="false"/>
+
+        <property name="priceNetto" column="price_netto" not-null="false"/>
+
+        <property name="oldPriceNetto" column="old_price_netto" />
+
+        <property name="quantity" column="quantity" not-null="false"/>
+
+        <property name="stockId" column="stock_id" not-null="false"/>
+
+        <property name="supplierName" column="supplier_name" not-null="false"/>
+
+        <property name="documentId" column="document_id"/>
+
+        <property name="documentEntryDate" column="document_entry_date" not-null="false" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime"/>
+
+        <property name="documentName" column="document_name" not-null="false"/>
+
+	</class>
+
+    <sql-query name="exportEntityTypesQuery">
+        <return alias="exportEntityTypes" class="warehouse.models.export.ExportEntityType"/>
+        <![CDATA[
+
+            SELECT row_number() OVER () as id, category.name as category_name, et.entity_type_id, et.entity_name, et.description, et.old_price_netto, et.catalog_index, stq.quantity, stq.stock_id, et.old_price_netto, dets.price_netto, vat.value as vat, units.name as unit, '' as supplier_name, now() as document_entry_date, dets.name as document_name, d.document_id FROM warehouse.wh_entity_type et
+            LEFT JOIN warehouse.wh_stock_type_quantity stq ON et.entity_type_id = stq.entity_type_id
+            LEFT JOIN warehouse.wh_units units ON et.unit_id = units.unit_id
+            LEFT JOIN warehouse.wh_vat vat ON et.vat_id = vat.vat_id
+            LEFT JOIN warehouse.wh_category_entity category ON et.category_id = category.category_id
+            LEFT JOIN (
+            SELECT DISTINCT ON (det.entity_type_id) d.creation_date, d.name, det.entity_type_id, det.document_id, det.price_brutto, det.price_netto FROM warehouse.wh_doc_entity_type det
+                INNER JOIN warehouse.wh_documents d ON d.document_id = det.document_id
+                WHERE price_netto > 0
+                ORDER BY det.entity_type_id, d.creation_date DESC) dets ON dets.entity_type_id = et.entity_type_id
+            WHERE stq.stock_id = :stockId AND stq.quantity > 0
+            ORDER BY category.name, et.entity_name
+
+        ]]>
+    </sql-query>
+
+    <sql-query name="reportEntityTypesTimePeriodQuery">
+        <return alias="exportEntityTypes" class="warehouse.models.export.ExportEntityType"/>
+        <![CDATA[
+
+            SELECT
+                row_number() OVER () as id,
+                d.entry_date AS document_entry_date,
+                d.name       AS document_name,
+                d.document_id,
+                s.name       AS supplier_name,
+                et.entity_name,
+                det.quantity,
+                det.price_netto,
+                et.entity_type_id,
+                et.catalog_index,
+                et.description,
+                et.old_price_netto,
+                vat.value    AS vat,
+                units.name   AS unit,
+                '1'          AS stock_id,
+                ''           AS category_name
+            FROM
+                warehouse.wh_entity_type et
+                INNER JOIN
+                    warehouse.wh_doc_entity_type det
+                ON et.entity_type_id = det.entity_type_id
+                INNER JOIN
+                    warehouse.wh_documents d
+                ON d.document_id = det.document_id
+                INNER JOIN
+                    warehouse.wh_vat vat
+                ON et.vat_id = vat.vat_id
+                INNER JOIN
+                    warehouse.wh_units units
+                ON et.unit_id = units.unit_id
+                INNER JOIN
+                    warehouse.wh_supplier s
+                ON d.supplier_id = s.id
+                LEFT JOIN
+                    warehouse.wh_category_entity category
+                ON et.category_id = category.category_id
+            WHERE
+                d.entry_date >= :start
+                AND d.entry_date < :end
+                AND d.doc_type_id = 1
+                AND d.wz = FALSE
+            ORDER BY
+                document_entry_date,
+                det.document_id,
+                det.entity_type_id;
+
+        ]]>
+    </sql-query>
+
+</hibernate-mapping>

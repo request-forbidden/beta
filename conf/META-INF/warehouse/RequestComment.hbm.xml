@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="warehouse.models.RequestComment" table="wh_request_comments" schema="warehouse">
+		<id name="id" type="long" column="request_comment_id">
+			<generator class="identity" />
+		</id>
+
+        <property name="comment" column="comment"></property>
+
+        <property name="requestId" column="request_id"></property>
+
+        <property name="userId" column="user_id"></property>
+
+        <property name="postTime" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime" column="post_time"></property>
+
+        <many-to-one name="user" class="auth.models.User" update="false" insert="false">
+            <column name="user_id"></column>
+        </many-to-one>
+
+        <many-to-one name="request" class="warehouse.models.Request" update="false" insert="false">
+            <column name="request_id"></column>
+        </many-to-one>
+
+	</class>
+</hibernate-mapping>
