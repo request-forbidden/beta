@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="models.eav.Entity" table="entity" schema="storehouse">
+		<id name="id" type="long" column="entity_id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="createdAt" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="created_at"/>
+		</property>
+		
+		<property name="updatedAt" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+			<column name="updated_at"/>
+		</property>
+		
+		<property name="active">
+			<column name="is_active"/>
+		</property>
+
+        <!--
+        <property name="damaged">
+            <column name="is_damaged"/>
+        </property>
+
+        <property name="damagedDescription">
+            <column name="damaged_description"/>
+        </property>
+
+        <property name="damagedDate">
+            <column name="damaged_date"/>
+        </property>
+        -->
+
+        <property name="stockId">
+            <column name="stock_id"/>
+        </property>
+
+        <property name="entityTypeId">
+            <column name="entity_type_id"/>
+        </property>
+
+        <!--
+
+        <many-to-one name="stock" class="warehouse.models.Stock" update="false" insert="false">
+            <column name="stock_id"></column>
+        </many-to-one>
+
+		<many-to-one name="entityType" class="warehouse.models.EntityType" update="false" insert="false">
+			<column name="entity_type_id"></column>
+		</many-to-one>
+
+        <set name="documents" table="wh_document_entity" inverse="true" schema="warehouse">
+            <key column="entity_id" not-null="true"/>
+            <many-to-many column="document_id" class="warehouse.models.Document"/>
+        </set>
+
+        <set name="values" inverse="true" schema="warehouse">
+            <key column="entity_id" not-null="true"/>
+            <one-to-many class="warehouse.models.eav.EAV_EntityValues"/>
+        </set>
+
+	    -->
+
+    </class>
+</hibernate-mapping>

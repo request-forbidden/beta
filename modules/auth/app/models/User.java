@@ -32,6 +32,8 @@ public class User extends AbstractModel  implements Subject {
 	private String 	hash;
 	private Boolean hasAvatar;
 
+	private List<SecurityRole> roles;
+
 	public User(){}
 
 	public Long getId() {
@@ -167,6 +169,7 @@ public class User extends AbstractModel  implements Subject {
 		return null;
 	}
 
+
 	@Override
 	public List<? extends Permission> getPermissions() {
 		return null;
@@ -175,5 +178,9 @@ public class User extends AbstractModel  implements Subject {
 	@Override
 	public String getIdentifier() {
 		return null;
+	}
+
+	public void setRoles(List<SecurityRole> roles) {
+		this.roles = roles;
 	}
 }

@@ -3,7 +3,7 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="auth.models.Privilege" table="privileges">
+	<class name="models.Privilege" table="privileges" schema="auth">
 
 		<id name="id" type="long" column="id">
 			<generator class="identity" />
@@ -28,13 +28,13 @@
 		<property name="userAvailable">
 			<column name="user_available"/>
 		</property>
-
+<!--
 		<many-to-one name="category" class="auth.models.Privilege$Category" update="false" insert="false">
 			<column name="category_id"></column>
 		</many-to-one>
-
+-->
 	</class>
-
+<!--
 	<class name="auth.models.Privilege$Category" table="privilege_category">
 
 		<id name="id" type="long" column="id">
@@ -46,5 +46,5 @@
 		</property>
 
 	</class>
-
+-->
 </hibernate-mapping>

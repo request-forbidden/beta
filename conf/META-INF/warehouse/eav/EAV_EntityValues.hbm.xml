@@ -3,9 +3,9 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="warehouse.models.eav.EAV_EntityValues" table="eav_entity_values" mutable="false" schema="warehouse">
+	<class name="models.eav.EntityValues" table="entity_values" mutable="false" schema="storehouse">
 
-        <composite-id name="pk" class="warehouse.models.eav.EAV_EntityValues$EAV_EntityValuesPK">
+        <composite-id name="pk" class="models.eav.EntityValues$EntityValuesPK">
             <key-property name="entityTypeId" column="entity_type_id"/>
             <key-property name="stockId" column="stock_id"/>
             <key-property name="attributeId" column="attribute_id"/>
@@ -48,6 +48,112 @@
             <column name="attribute_id"/>
         </property>
         -->
+
+        <!-- its VIEW
+
+        SELECT
+            "values".attribute_id,
+            "values".attribute_code,
+            "values".frontend_label,
+            "values".stock_id,
+            "values".entity_type_id,
+            "values".entity_id,
+            "values".is_active,
+            "values".is_damaged,
+            "values".damaged_description,
+            "values".type,
+            "values".value
+       FROM ( SELECT ea.attribute_id,
+            ea.attribute_code,
+            ea.frontend_label,
+            e.stock_id,
+            e.entity_type_id,
+            e.entity_id,
+            e.is_active,
+            e.is_damaged,
+            e.damaged_description,
+            'boolean'::text AS type,
+            (eav.value)::character varying AS value
+           FROM ((warehouse.eav_entity e
+             JOIN warehouse.eav_entity_boolean eav ON ((e.entity_id = eav.entity_id)))
+             JOIN warehouse.eav_attribute ea ON ((eav.attribute_id = ea.attribute_id)))
+        UNION
+         SELECT ea.attribute_id,
+            ea.attribute_code,
+            ea.frontend_label,
+            e.stock_id,
+            e.entity_type_id,
+            e.entity_id,
+            e.is_active,
+            e.is_damaged,
+            e.damaged_description,
+            'datetime'::text AS type,
+            (eav.value)::character varying AS value
+           FROM ((warehouse.eav_entity e
+             JOIN warehouse.eav_entity_datetime eav ON ((e.entity_id = eav.entity_id)))
+             JOIN warehouse.eav_attribute ea ON ((eav.attribute_id = ea.attribute_id)))
+        UNION
+         SELECT ea.attribute_id,
+            ea.attribute_code,
+            ea.frontend_label,
+            e.stock_id,
+            e.entity_type_id,
+            e.entity_id,
+            e.is_active,
+            e.is_damaged,
+            e.damaged_description,
+            'varchar'::text AS type,
+            eav.value
+           FROM ((warehouse.eav_entity e
+             JOIN warehouse.eav_entity_varchar eav ON ((e.entity_id = eav.entity_id)))
+             JOIN warehouse.eav_attribute ea ON ((eav.attribute_id = ea.attribute_id)))
+        UNION
+         SELECT ea.attribute_id,
+            ea.attribute_code,
+            ea.frontend_label,
+            e.stock_id,
+            e.entity_type_id,
+            e.entity_id,
+            e.is_active,
+            e.is_damaged,
+            e.damaged_description,
+            'decimal'::text AS type,
+            (eav.value)::character varying AS value
+           FROM ((warehouse.eav_entity e
+             JOIN warehouse.eav_entity_decimal eav ON ((e.entity_id = eav.entity_id)))
+             JOIN warehouse.eav_attribute ea ON ((eav.attribute_id = ea.attribute_id)))
+        UNION
+         SELECT ea.attribute_id,
+            ea.attribute_code,
+            ea.frontend_label,
+            e.stock_id,
+            e.entity_type_id,
+            e.entity_id,
+            e.is_active,
+            e.is_damaged,
+            e.damaged_description,
+            'int'::text AS type,
+            (eav.value)::character varying AS value
+           FROM ((warehouse.eav_entity e
+             JOIN warehouse.eav_entity_int eav ON ((e.entity_id = eav.entity_id)))
+             JOIN warehouse.eav_attribute ea ON ((eav.attribute_id = ea.attribute_id)))
+        UNION
+         SELECT ea.attribute_id,
+            ea.attribute_code,
+            ea.frontend_label,
+            e.stock_id,
+            e.entity_type_id,
+            e.entity_id,
+            e.is_active,
+            e.is_damaged,
+            e.damaged_description,
+            'text'::text AS type,
+            (eav.value)::character varying AS value
+           FROM ((warehouse.eav_entity e
+             JOIN warehouse.eav_entity_text eav ON ((e.entity_id = eav.entity_id)))
+             JOIN warehouse.eav_attribute ea ON ((eav.attribute_id = ea.attribute_id)))) "values"
+  ORDER BY "values".entity_id DESC;
+  -->
 		
 	</class>
 </hibernate-mapping>

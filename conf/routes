@@ -9,10 +9,11 @@ GET     /login                      @controllers.Application.login()
 GET     /logout                     @controllers.Application.logout()
 GET     /js/routes                  @controllers.Application.javascriptRoutes()
 
-
-
 POST     /upload                     @controllers.Application.upload()
 
+
+
+->  /st                             storehouse.Routes
 
 
 

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="models.eav.EntityAttribute" table="eav_entity_attribute" schema="storehouse">
+
+		<id name="id" type="long" column="entity_attribute_id">
+			<generator class="identity" />
+		</id>
+
+		<property name="entityTypeId">
+			<column name="entity_type_id"/>
+		</property>
+
+		<property name="attributeId">
+			<column name="attribute_id"/>
+		</property>
+
+		<property name="attributeGroupId">
+			<column name="attribute_group_id"/>
+		</property>
+
+        <property name="attributeSetId">
+            <column name="attribute_set_id"/>
+        </property>
+
+		<many-to-one name="entityType" class="models.eav.EntityType" update="false" insert="false">
+			<column name="entity_type_id"></column>
+		</many-to-one>
+<!--
+        <many-to-one name="attribute" class="warehouse.models.eav.EAV_Attribute" update="false" insert="false">
+            <column name="attribute_id"></column>
+        </many-to-one>
+
+        <many-to-one name="attributeGroup" class="warehouse.models.eav.EAV_AttributeGroup" update="false" insert="false">
+            <column name="attribute_group_id"></column>
+        </many-to-one>
+
+        <many-to-one name="attributeSet" class="warehouse.models.eav.EAV_AttributeSet" update="false" insert="false">
+            <column name="attribute_set_id"></column>
+        </many-to-one>
+-->
+	</class>
+</hibernate-mapping>

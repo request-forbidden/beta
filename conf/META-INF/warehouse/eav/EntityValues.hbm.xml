@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="models.eav.EAV_Boolean" table="eav_boolean" schema="storehouse">
+		<id name="id" type="long" column="value_id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="value">
+			<column name="value"/>
+		</property>
+		
+		<property name="attributeId">
+			<column name="attribute_id"/>
+		</property>
+		
+		<many-to-one name="attribute" class="models.eav.Attribute" update="false" insert="false">
+			<column name="attribute_id"></column>
+		</many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="models.eav.Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+	</class>
+
+    <class name="models.eav.EAV_Datetime" table="eav_datetime" schema="storehouse">
+        <id name="id" type="long" column="value_id">
+            <generator class="identity" />
+        </id>
+
+        <property name="value" type="org.jadira.usertype.dateandtime.joda.PersistentDateTime">
+            <column name="value"/>
+        </property>
+
+        <property name="attributeId">
+            <column name="attribute_id"/>
+        </property>
+
+        <many-to-one name="attribute" class="models.eav.Attribute" update="false" insert="false">
+            <column name="attribute_id"></column>
+        </many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="models.eav.Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+    </class>
+
+    <class name="models.eav.EAV_Text" table="eav_text" schema="storehouse">
+        <id name="id" type="long" column="value_id">
+            <generator class="identity" />
+        </id>
+
+        <property name="value">
+            <column name="value"/>
+        </property>
+
+        <property name="attributeId">
+            <column name="attribute_id"/>
+        </property>
+
+        <many-to-one name="attribute" class="models.eav.Attribute" update="false" insert="false">
+            <column name="attribute_id"></column>
+        </many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="models.eav.Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+    </class>
+
+    <class name="models.eav.EAV_Varchar" table="eav_varchar" schema="storehouse">
+        <id name="id" type="long" column="value_id">
+            <generator class="identity" />
+        </id>
+
+        <property name="value">
+            <column name="value"/>
+        </property>
+
+        <property name="attributeId">
+            <column name="attribute_id"/>
+        </property>
+
+        <many-to-one name="attribute" class="models.eav.Attribute" update="false" insert="false">
+            <column name="attribute_id"></column>
+        </many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="models.eav.Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+    </class>
+
+    <class name="models.eav.EAV_Int" table="eav_int" schema="storehouse">
+        <id name="id" type="long" column="value_id">
+            <generator class="identity" />
+        </id>
+
+        <property name="value">
+            <column name="value"/>
+        </property>
+
+        <property name="attributeId">
+            <column name="attribute_id"/>
+        </property>
+
+        <many-to-one name="attribute" class="models.eav.Attribute" update="false" insert="false">
+            <column name="attribute_id"></column>
+        </many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="models.eav.Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+    </class>
+
+    <class name="models.eav.EAV_Decimal" table="eav_decimal" schema="storehouse">
+        <id name="id" type="long" column="value_id">
+            <generator class="identity" />
+        </id>
+
+        <property name="value">
+            <column name="value"/>
+        </property>
+
+        <property name="attributeId">
+            <column name="attribute_id"/>
+        </property>
+
+        <many-to-one name="attribute" class="models.eav.Attribute" update="false" insert="false">
+            <column name="attribute_id"></column>
+        </many-to-one>
+
+        <property name="entityId">
+            <column name="entity_id"/>
+        </property>
+
+        <many-to-one name="entity" class="models.eav.Entity" update="false" insert="false">
+            <column name="entity_id"></column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

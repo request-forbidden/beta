@@ -3,9 +3,8 @@
 "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="models.Group" table="groups" schema="auth">
-
-		<id name="id" type="long" column="id">
+	<class name="models.eav.EntityTypeCategory" table="category_entity" schema="storehouse">
+		<id name="id" type="int" column="category_id">
 			<generator class="identity" />
 		</id>
 
@@ -13,10 +12,10 @@
 			<column name="name"/>
 		</property>
 
-		<property name="descr">
-			<column name="descr"/>
-		</property>
-
+		<set name="entityTypes" inverse="true">
+            <key column="category_id"/>
+            <one-to-many class="models.eav.EntityType"/>
+        </set>
 
 	</class>
 </hibernate-mapping>
