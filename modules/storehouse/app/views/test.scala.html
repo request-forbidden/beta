@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+  <meta charset="UTF-8">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.min.js"></script>
+
+  <link rel="stylesheet" href="https://rawgit.com/esvit/ng-table/master/dist/ng-table.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <script src="https://rawgit.com/esvit/ng-table/master/dist/ng-table.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+  <title> Na na na na na na ... </title>
+
+</head>
+
+  <body>
+
+  <div ng-app="myApp">
+    <div ng-controller="demoController as demo">
+      <h2 class="page-header">Real world example</h2>
+      <div class="bs-callout bs-callout-info">
+        <h4>Overview</h4>
+        <p>Example of fetching data from the github api.</p>
+        <p>
+        Demonstrates <em>one</em> of the ways data can be loaded into the table asynchronously by supplying <code>NgTableParams</code> a custom <code>getData</code> function.
+      </p>
+      </div>
+      <div loading-container="demo.tableParams.settings().$loading">
+        <table ng-table="demo.tableParams" class="table table-condensed table-bordered table-striped">
+          <tr ng-repeat="issue in $data">
+            <td data-title="'#'">
+              <a target="_blank" ng-href="{{issue.html_url}}">{{issue.number}}</a>
+            </td>
+            <td data-title="'Name'" filter="{name: 'text'}">{{issue.name}}</td>
+            <td data-title="'Opened by'" filter="{other: 'text'}">
+              <a target="_blank" ng-href="{{issue.user.url}}">
+                <nobr><img width="16" height="16" ng-src="{{issue.user.avatar_url}}" /> {{issue.user.login}}
+                </nobr>
+              </a>
+            </td>
+            <td data-title="'Updated'">
+              <nobr>{{issue.updated_at | date:'medium'}}</nobr>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+angular.module("myApp", ["ngTable", "ngResource"]);
+(function() {
+  "use strict";
+
+  angular.module("myApp").controller("demoController", demoController);
+
+  demoController.$inject = ["NgTableParams", "IssueService"];
+
+  function demoController(NgTableParams, IssueService) {
+
+    this.cols = [
+        { field: "name", title: "Name", filter: { name: "text" }, show: true },
+        { field: "other", title: "Name", filter: { name: "text" }, show: true }
+      ];
+
+//http://codepen.io/anon/pen/QNjEmj?editors=1010
+//http://ng-table.com/#/filtering/demo-filtering-basic
+
+    this.tableParams = new NgTableParams({}, {
+      getData: function(params) {
+        return IssueService.query({
+          page: params.page(),
+          per_page: params.count(),
+          filter: params.filter()
+        }, function(data, headersGetter) {
+
+           console.log(" testing stuff ! ")
+
+          params.total(123);
+          return data;
+        }).$promise;
+      }
+    });
+
+  }
+
+})();
+
+(function() {
+  "use strict";
+
+  angular.module("myApp").factory("IssueService", ["$resource", function($resource) {
+    return $resource("/st/test-data/", {
+      state: "open"
+    }, {
+      query: {
+        method: "POST",
+        isArray: true
+      }
+    });
+  }]);
+
+})();
+
+</script>
+
+</body>
+</html>
